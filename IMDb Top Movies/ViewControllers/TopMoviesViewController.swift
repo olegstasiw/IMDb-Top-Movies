@@ -5,6 +5,7 @@
 //  Created by Oleh Stasiv on 22.03.2023.
 //
 
+import Combine
 import UIKit
 
 class TopMoviesViewController: UIViewController {
@@ -14,7 +15,7 @@ class TopMoviesViewController: UIViewController {
     }
 
     private struct Constants {
-        static let itemEdgeInsets = NSDirectionalEdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10)
+        static let itemEdgeInsets = NSDirectionalEdgeInsets(top: 5, leading: 10, bottom: 10, trailing: 10)
         static let sectionEdgeInsets = NSDirectionalEdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20)
         static let itemHeight: CGFloat = 240
         static let itemCountForIphone = 1
@@ -29,12 +30,14 @@ class TopMoviesViewController: UIViewController {
     private lazy var dataSource: DataSource = {
         let dataSource = DataSource(
             collectionView: collectionView,
-            cellProvider: { (collectionView, indexPath, video) -> UICollectionViewCell? in
+            cellProvider: { [weak self] (collectionView, indexPath, video) -> UICollectionViewCell? in
+                guard let strongSelf = self else { return nil }
                 let cell: TopMoviesCollectionViewCell = collectionView.dequeueReusableCell(for: indexPath)
                 cell.addShadow()
                 cell.cornered(cornerRadius: Constants.itemCornerRadius)
-                // setup Cell
-                cell.setupCell()
+                let movie = strongSelf.viewModel.movies[indexPath.item]
+                cell.setupData(movie: movie)
+                cell.setUpImageView(imageURL: movie.image, indexPath: indexPath)
                 return cell
             })
         dataSource.supplementaryViewProvider = { collectionView, kind, indexPath in
@@ -56,6 +59,13 @@ class TopMoviesViewController: UIViewController {
         collectionView.refreshControl = refreshControl
         return collectionView
     }()
+    
+    lazy var loadingIndicator: UIActivityIndicatorView = {
+        let activityIndicatorView = UIActivityIndicatorView().withAutoLayout()
+        activityIndicatorView.startAnimating()
+        activityIndicatorView.hidesWhenStopped = true
+        return activityIndicatorView
+    }()
 
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
@@ -64,6 +74,7 @@ class TopMoviesViewController: UIViewController {
     }()
 
     var viewModel: TopMoviesViewModelProtocol
+    private var cancellable = Set<AnyCancellable>()
 
     init(viewModel: TopMoviesViewModelProtocol) {
         self.viewModel = viewModel
@@ -75,32 +86,54 @@ class TopMoviesViewController: UIViewController {
     }
 
     @objc private func didPullToRefresh(_ sender: Any) {
-        // fetchData
+        viewModel.fetchData(completion: nil)
         refreshControl.endRefreshing()
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView.backgroundColor = .customBackgroundColor
-        navigationController?.navigationBar.prefersLargeTitles = true
-        title = Constants.navigationTitle
-        configureCollectionView()
+        setupNavigationBar()
+        setupViews()
+        setupConstraints()
         registerCells()
         configureLayout()
         setupBindings()
-
-        viewModel.fetchData()
+        viewModel.fetchData { [weak self] in
+            DispatchQueue.main.async {
+                self?.loadingIndicator.stopAnimating()
+            }
+        }
     }
 
     private func setupBindings() {
         viewModel.dataDidChange = { [weak self] viewModel in
             self?.applySnapshot()
         }
+        viewModel.error
+            .sink { [weak self] error in
+                guard let error = error else { return }
+                // TO DO
+                print(error)
+            }
+            .store(in: &cancellable)
+    }
+    
+    private func setupNavigationBar() {
+        navigationController?.navigationBar.prefersLargeTitles = true
+        title = Constants.navigationTitle
     }
 
-    private func configureCollectionView() {
+    private func setupViews() {
         view.addSubview(collectionView)
-        NSLayoutConstraint.activate(collectionView.constraintsToFillSuperview())
+        view.addSubview(loadingIndicator)
+        collectionView.backgroundColor = .customBackgroundColor
+    }
+    
+    private func setupConstraints() {
+        var constraints = [NSLayoutConstraint]()
+        constraints += loadingIndicator.constraintsToBeCenteredInSuperview()
+        constraints += collectionView.constraintsToFillSuperview()
+        NSLayoutConstraint.activate(constraints)
     }
 
     private func registerCells() {

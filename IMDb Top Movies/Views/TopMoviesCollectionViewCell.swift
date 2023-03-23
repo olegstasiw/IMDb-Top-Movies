@@ -39,6 +39,7 @@ class TopMoviesCollectionViewCell: UICollectionViewCell, Reusable {
     lazy var movieImageView: UIImageView = {
         let imageView = UIImageView().withAutoLayout()
         imageView.addShadow()
+        imageView.contentMode = .scaleToFill
         return imageView
     }()
 
@@ -79,7 +80,6 @@ class TopMoviesCollectionViewCell: UICollectionViewCell, Reusable {
         self.backgroundColor = .cardBackgroundColor
         addSubviews()
         setupConstraints()
-        setupData()
     }
 
     func addSubviews() {
@@ -98,28 +98,42 @@ class TopMoviesCollectionViewCell: UICollectionViewCell, Reusable {
             movieImageView.widthAnchor.constraint(equalToConstant: Constants.movieImageViewWidth),
             rankView.topAnchor.constraint(equalTo: topAnchor, constant: -Constants.rankSize / 4),
             rankView.leftAnchor.constraint(equalTo: leftAnchor, constant: -Constants.rankSize / 4),
-            rankView.widthAnchor.constraint(equalToConstant: Constants.rankSize),
-            rankView.heightAnchor.constraint(equalToConstant: Constants.rankSize),
             titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: Constants.titleLabelPadding),
             titleLabel.leftAnchor.constraint(equalTo: movieImageView.rightAnchor, constant: Constants.titleLabelPadding),
             titleLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -Constants.titleLabelPadding),
             iMDbRankView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Constants.iMDbRankViewPadding),
-            iMDbRankView.rightAnchor.constraint(equalTo: rightAnchor, constant: -Constants.iMDbRankViewPadding),
-            iMDbRankView.widthAnchor.constraint(equalToConstant: Constants.iMDbRankViewWidth),
-            iMDbRankView.heightAnchor.constraint(equalToConstant: Constants.iMDbRankViewHeight)
+            iMDbRankView.rightAnchor.constraint(equalTo: rightAnchor, constant: -Constants.iMDbRankViewPadding)
         ])
         constraints += movieImageView.constraintsToFillSuperviewVertically(topMargin: Constants.movieImageViewPadding, bottomgMargin: -Constants.movieImageViewPadding)
         constraints += rankLabel.constraintsToFillSuperview()
         constraints += iMDbRankLabel.constraintsToFillSuperview()
+        constraints += rankView.constraintsWidthAndHeight(width: Constants.rankSize, height: Constants.rankSize)
+        constraints += iMDbRankView.constraintsWidthAndHeight(width: Constants.iMDbRankViewWidth, height: Constants.iMDbRankViewHeight)
         
         NSLayoutConstraint.activate(constraints)
     }
     
-    func setupData() {
-        // Change
-        rankLabel.text = "1"
+    func setupData(movie: Movie) {
+        setupCell()
+        rankLabel.text = movie.rank
         movieImageView.image = UIImage(named: "placeholderMovie")
-        titleLabel.text = "The Lord of the Rings: The Return of the King"
-        iMDbRankLabel.text = "9.2"
+        titleLabel.text = movie.title
+        iMDbRankLabel.text = movie.imDbRating
+    }
+    
+    func setUpImageView(imageURL: String, indexPath: IndexPath) {
+        self.tag = indexPath.item
+        // Load cache
+        DispatchQueue.global().async {
+            //TO DO
+            guard let url = URLBuilder.shared.buildImageResizeURL(imageURL: imageURL) else { return }
+            guard let data = try? Data(contentsOf: url) else { return }
+            DispatchQueue.main.async {
+                if self.tag == indexPath.item {
+                    // Save cache
+                    self.movieImageView.image = UIImage(data: data)
+                }
+            }
+        }
     }
 }
