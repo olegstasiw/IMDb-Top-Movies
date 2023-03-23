@@ -7,8 +7,14 @@
 
 import Foundation
 
-struct Movie: Hashable {
-    //change
-    let id = UUID()
-    let name: String
+struct MoviesList: Codable {
+    let items: [Movie]
+}
+
+struct Movie: Hashable, Codable {
+    let id: String
+    let rank: String
+    let title: String
+    let image: String
+    let imDbRating: String
 }

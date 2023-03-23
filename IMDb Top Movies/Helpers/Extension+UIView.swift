@@ -56,4 +56,19 @@ public extension UIView {
         
         return [top, bottom]
     }
+    
+    func constraintsToBeCenteredInSuperview() -> [NSLayoutConstraint] {
+        guard let superview = superview else {
+            fatalError("This view does not have a superview: \(self)")
+        }
+        let xAnchor = centerXAnchor.constraint(equalTo: superview.centerXAnchor)
+        let yAnchor = centerYAnchor.constraint(equalTo: superview.centerYAnchor)
+        return [xAnchor, yAnchor]
+    }
+    
+    func constraintsWidthAndHeight(width: CGFloat, height: CGFloat) -> [NSLayoutConstraint] {
+        let widthAnchor = widthAnchor.constraint(equalToConstant: width)
+        let heightAnchor = heightAnchor.constraint(equalToConstant: height)
+        return [widthAnchor, heightAnchor]
+    }
 }
