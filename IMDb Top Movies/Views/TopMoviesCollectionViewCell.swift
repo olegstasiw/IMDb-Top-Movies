@@ -39,7 +39,8 @@ class TopMoviesCollectionViewCell: UICollectionViewCell, Reusable {
     lazy var movieImageView: UIImageView = {
         let imageView = UIImageView().withAutoLayout()
         imageView.addShadow()
-        imageView.contentMode = .scaleToFill
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
         return imageView
     }()
 

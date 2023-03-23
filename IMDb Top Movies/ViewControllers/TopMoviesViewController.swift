@@ -22,6 +22,7 @@ class TopMoviesViewController: UIViewController {
         static let itemCountForIpad = 2
         static let itemCornerRadius: CGFloat = 10
         static let navigationTitle = "IMDb Movies"
+        static let searchPlaceholder = "Search Movies"
     }
 
     private typealias DataSource = UICollectionViewDiffableDataSource<Section, Movie>
@@ -35,7 +36,9 @@ class TopMoviesViewController: UIViewController {
                 let cell: TopMoviesCollectionViewCell = collectionView.dequeueReusableCell(for: indexPath)
                 cell.addShadow()
                 cell.cornered(cornerRadius: Constants.itemCornerRadius)
-                let movie = strongSelf.viewModel.movies[indexPath.item]
+                let movie = strongSelf.searchController.isActive
+                ? strongSelf.viewModel.filteredMovies[indexPath.item]
+                : strongSelf.viewModel.movies[indexPath.item]
                 cell.setupData(movie: movie)
                 cell.setUpImageView(imageURL: movie.image, indexPath: indexPath)
                 return cell
@@ -59,7 +62,7 @@ class TopMoviesViewController: UIViewController {
         collectionView.refreshControl = refreshControl
         return collectionView
     }()
-    
+
     lazy var loadingIndicator: UIActivityIndicatorView = {
         let activityIndicatorView = UIActivityIndicatorView().withAutoLayout()
         activityIndicatorView.startAnimating()
@@ -72,6 +75,8 @@ class TopMoviesViewController: UIViewController {
         refreshControl.addTarget(self, action: #selector(didPullToRefresh(_:)), for: .valueChanged)
         return refreshControl
     }()
+
+    private var searchController = UISearchController(searchResultsController: nil)
 
     var viewModel: TopMoviesViewModelProtocol
     private var cancellable = Set<AnyCancellable>()
@@ -86,7 +91,12 @@ class TopMoviesViewController: UIViewController {
     }
 
     @objc private func didPullToRefresh(_ sender: Any) {
-        viewModel.fetchData(completion: nil)
+        viewModel.fetchData {  [weak self] in
+            guard let strongSelf = self, !strongSelf.viewModel.movies.isEmpty else { return }
+            DispatchQueue.main.async {
+                self?.applySnapshot()
+            }
+        }
         refreshControl.endRefreshing()
     }
 
@@ -98,17 +108,20 @@ class TopMoviesViewController: UIViewController {
         registerCells()
         configureLayout()
         setupBindings()
+        configureSearchController()
         viewModel.fetchData { [weak self] in
-            DispatchQueue.main.async {
+            guard let strongSelf = self, !strongSelf.viewModel.movies.isEmpty else {
                 self?.loadingIndicator.stopAnimating()
+                return
+            }
+            DispatchQueue.main.async {
+                strongSelf.applySnapshot()
+                strongSelf.loadingIndicator.stopAnimating()
             }
         }
     }
 
     private func setupBindings() {
-        viewModel.dataDidChange = { [weak self] viewModel in
-            self?.applySnapshot()
-        }
         viewModel.error
             .sink { [weak self] error in
                 guard let error = error else { return }
@@ -144,7 +157,8 @@ class TopMoviesViewController: UIViewController {
         var snapshot = Snapshot()
 
         snapshot.appendSections([.main])
-        snapshot.appendItems(viewModel.movies, toSection: .main)
+        let movies = searchController.isActive ? viewModel.filteredMovies : viewModel.movies
+        snapshot.appendItems(movies, toSection: .main)
 
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
@@ -187,5 +201,31 @@ extension TopMoviesViewController {
         coordinator.animate(alongsideTransition: { context in
             self.collectionView.collectionViewLayout.invalidateLayout()
         })
+    }
+}
+
+extension TopMoviesViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        viewModel.filteredMovies = filteredItems(for: searchController.searchBar.text)
+        applySnapshot()
+    }
+    
+    func filteredItems(for queryOrNil: String?) -> [Movie] {
+        viewModel.filteredMovies.removeAll()
+        let items = viewModel.movies
+        guard let query = queryOrNil, !query.isEmpty else { return items }
+
+        return items.filter { item in
+            let matches = item.title.lowercased().contains(query.lowercased())
+            return matches
+        }
+    }
+
+    func configureSearchController() {
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = Constants.searchPlaceholder
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
     }
 }

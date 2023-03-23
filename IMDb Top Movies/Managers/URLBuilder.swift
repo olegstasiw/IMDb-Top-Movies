@@ -19,10 +19,10 @@ class URLBuilder: URLBuilderProtocol {
     private struct Constants {
         static let stringURL = "https://imdb-api.com/API/"
         static let lang = "en"
-        static let apiKey = "k_54ypy0gq"
+        static let apiKey = "k_12qh7df3"
         static let topMoviesApiPath = "Top250Movies"
         static let resizeImageApiPath = "ResizeImage"
-        static let imageSize = "380x550"
+        static let imageSize = "390x550"
         
         static let apiKeyPath = "apikey"
         static let langPath = "lang"
