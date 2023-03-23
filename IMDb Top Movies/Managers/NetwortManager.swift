@@ -8,23 +8,6 @@
 import Foundation
 import Combine
 
-enum APIError: LocalizedError {
-    case invalidURL
-    case emptyData
-}
-
-extension APIError {
-    var errorDescription: String? {
-        switch self {
-        case .invalidURL:
-            return "Bad url"
-        case .emptyData:
-            return "Data is empty. Check your request limit"
-        }
-    }
-}
-
-
 protocol NetworkService {
     func getMovies() -> AnyPublisher<[Movie], Error>
 }

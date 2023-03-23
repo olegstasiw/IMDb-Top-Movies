@@ -16,6 +16,7 @@
 		31065E2529CC7B9A00981B4D /* Extension+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31065E2429CC7B9A00981B4D /* Extension+UIColor.swift */; };
 		31065E2829CC854500981B4D /* NetwortManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31065E2729CC854500981B4D /* NetwortManager.swift */; };
 		31065E2A29CC9F4C00981B4D /* URLBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31065E2929CC9F4C00981B4D /* URLBuilder.swift */; };
+		31065E2C29CCC14500981B4D /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31065E2B29CCC14500981B4D /* APIError.swift */; };
 		317F242029CB7F150042836D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317F241F29CB7F150042836D /* AppDelegate.swift */; };
 		317F242229CB7F150042836D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317F242129CB7F150042836D /* SceneDelegate.swift */; };
 		317F242429CB7F150042836D /* TopMoviesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317F242329CB7F150042836D /* TopMoviesViewController.swift */; };
@@ -34,6 +35,7 @@
 		31065E2429CC7B9A00981B4D /* Extension+UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIColor.swift"; sourceTree = "<group>"; };
 		31065E2729CC854500981B4D /* NetwortManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetwortManager.swift; sourceTree = "<group>"; };
 		31065E2929CC9F4C00981B4D /* URLBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLBuilder.swift; sourceTree = "<group>"; };
+		31065E2B29CCC14500981B4D /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		317F241C29CB7F150042836D /* IMDb Top Movies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "IMDb Top Movies.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		317F241F29CB7F150042836D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		317F242129CB7F150042836D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -85,6 +87,7 @@
 			isa = PBXGroup;
 			children = (
 				31065E2729CC854500981B4D /* NetwortManager.swift */,
+				31065E2B29CCC14500981B4D /* APIError.swift */,
 				31065E2929CC9F4C00981B4D /* URLBuilder.swift */,
 			);
 			path = Managers;
@@ -241,6 +244,7 @@
 				31065E2829CC854500981B4D /* NetwortManager.swift in Sources */,
 				31065E1729CC5AFF00981B4D /* Extension+UICollectionView.swift in Sources */,
 				31065E2529CC7B9A00981B4D /* Extension+UIColor.swift in Sources */,
+				31065E2C29CCC14500981B4D /* APIError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

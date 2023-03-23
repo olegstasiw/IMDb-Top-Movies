@@ -10,19 +10,15 @@ import Combine
 
 protocol TopMoviesViewModelProtocol {
     var movies: [Movie] { get set}
+    var filteredMovies: [Movie] { get set }
     var error: CurrentValueSubject<String?, Never> { get }
-    var dataDidChange: ((TopMoviesViewModelProtocol) -> Void)? { get set }
     func fetchData(completion: (() -> Void)?)
 }
 
 class TopMoviesViewModel: TopMoviesViewModelProtocol {
-    var movies: [Movie] = [] {
-        didSet {
-            dataDidChange?(self)
-        }
-    }
+    var movies: [Movie] = [] 
+    var filteredMovies: [Movie] = []
 
-    var dataDidChange: ((TopMoviesViewModelProtocol) -> Void)?
     var error = CurrentValueSubject<String?, Never>(nil)
     let networkManager: NetworkService
 
