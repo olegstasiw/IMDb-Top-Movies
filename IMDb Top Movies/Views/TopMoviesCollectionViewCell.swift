@@ -12,7 +12,7 @@ class TopMoviesCollectionViewCell: UICollectionViewCell, Reusable {
     private struct Constants {
         static let rankSize: CGFloat = 50
         static let movieImageViewWidth: CGFloat = 150
-        static let movieImageViewPadding: CGFloat = 10
+        static let movieImageViewPadding: CGFloat = 5
         static let iMDbRankViewWidth: CGFloat = 50
         static let iMDbRankViewHeight: CGFloat = 30
         static let iMDbRankViewPadding: CGFloat = 5
@@ -120,12 +120,6 @@ class TopMoviesCollectionViewCell: UICollectionViewCell, Reusable {
         movieImageView.image = UIImage(named: "placeholderMovie")
         titleLabel.text = movie.title
         iMDbRankLabel.text = movie.imDbRating
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            print(self.movieImageView.layer.bounds)
-            print(self.movieImageView.layer.frame)
-        }
-       
     }
     
     func setUpImageView(imageURL: String, indexPath: IndexPath) {
