@@ -92,16 +92,6 @@ class TopMoviesViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    @objc private func didPullToRefresh(_ sender: Any) {
-        viewModel.fetchData {  [weak self] in
-            guard let strongSelf = self, !strongSelf.viewModel.movies.isEmpty else { return }
-            DispatchQueue.main.async {
-                self?.applySnapshot()
-            }
-        }
-        refreshControl.endRefreshing()
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
@@ -116,11 +106,23 @@ class TopMoviesViewController: UIViewController {
                 self?.loadingIndicator.stopAnimating()
                 return
             }
-            DispatchQueue.main.async {
+            
+            DispatchQueue.main.async { [weak self] in
+                guard let strongSelf = self else { return }
                 strongSelf.applySnapshot()
                 strongSelf.loadingIndicator.stopAnimating()
             }
         }
+    }
+
+    @objc private func didPullToRefresh(_ sender: Any) {
+        viewModel.fetchData {  [weak self] in
+            guard let strongSelf = self, !strongSelf.viewModel.movies.isEmpty else { return }
+            DispatchQueue.main.async {
+                self?.applySnapshot()
+            }
+        }
+        refreshControl.endRefreshing()
     }
 
     private func setupBindings() {

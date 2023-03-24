@@ -182,7 +182,7 @@ class MovieDetailsViewController: UIViewController {
         totalCountLabel.text = viewModel.totalCountLetterText
         stackView.addArrangedSubview(totalCountLabel)
         
-        let stringArray = viewModel.getDictionaryWithCountingOfEachCharecterInTitle()
+        let stringArray = viewModel.getArrayWithCountingOfEachCharecterInTitle()
         stringArray.forEach { (key, value) in
             let label = UILabel()
             let timeSting = value > 1 ? "times" : "time"
@@ -216,17 +216,20 @@ class MovieDetailsViewController: UIViewController {
     
     private func fetchImage() {
         let id = viewModel.movie.id + "large"
+        let queue = DispatchQueue.global(qos: .utility)
         guard let url = viewModel.getURLForLargeImage() else { return }
         if let cached = viewModel.getImageDataFromCache(id: id) {
             DispatchQueue.main.async { [weak self] in
-                self?.imageView.image = UIImage(data: cached)
+                guard let strongSelf = self else { return }
+                strongSelf.imageView.image = UIImage(data: cached)
             }
         } else {
-            DispatchQueue.global().async {
+            queue.async { [weak self] in
                 guard let data = try? Data(contentsOf: url) else { return }
-                DispatchQueue.main.async { [weak self] in
-                    self?.viewModel.saveImageDataToCache(id: id, url: url.absoluteString, data: data)
-                        self?.imageView.image = UIImage(data: data)
+                DispatchQueue.main.async {
+                    guard let strongSelf = self else { return }
+                    strongSelf.viewModel.saveImageDataToCache(id: id, url: url.absoluteString, data: data)
+                    strongSelf.imageView.image = UIImage(data: data)
                 }
             }
         }

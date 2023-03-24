@@ -11,7 +11,7 @@ import Foundation
 protocol MovieDetailsViewModelProtocol {
     var movie: Movie { get }
     func getURLForLargeImage() -> URL?
-    func getDictionaryWithCountingOfEachCharecterInTitle() -> [Character: Int]
+    func getArrayWithCountingOfEachCharecterInTitle() -> [(Character, Int)]
     func getImageDataFromCache(id: String) -> Data?
     func saveImageDataToCache(id: String, url: String, data: Data)
     var error: CurrentValueSubject<String?, Never> { get }
@@ -62,17 +62,19 @@ class MovieDetailsViewModel: MovieDetailsViewModelProtocol {
         return url
     }
     
-    func getDictionaryWithCountingOfEachCharecterInTitle() -> [Character: Int] {
-        var dictionary = [Character: Int]()
+    func getArrayWithCountingOfEachCharecterInTitle() -> [(Character, Int)] {
+        var array = [(Character, Int)]()
         
-        var letterSet = Set<Character>()
-        movie.title.forEach { letterSet.insert(Character($0.lowercased())) }
-        
-        letterSet.filter { $0.isLetter }.forEach { letter in
-            let count = movie.title.filter { Character($0.lowercased()) == letter }.count
-            dictionary.updateValue(count, forKey: letter)
+        var letterArray = [Character]()
+        for letter in movie.title {
+            letterArray.append(Character(letter.lowercased()))
         }
-        return dictionary
+        
+        for letter in letterArray.removeDuplicates().filter({ $0.isLetter }) {
+            let count = movie.title.filter { Character($0.lowercased()) == letter }.count
+            array.append((letter, count))
+        }
+        return array
     }
     
     func getImageDataFromCache(id: String) -> Data? {
@@ -90,5 +92,19 @@ class MovieDetailsViewModel: MovieDetailsViewModelProtocol {
         cacheManager.saveImage(id: id, imageUrl: url, data: data) { [weak self] error in
             self?.error.value = error?.localizedDescription
         }
+    }
+}
+
+extension Array where Element:Equatable {
+    func removeDuplicates() -> [Element] {
+        var result = [Element]()
+
+        for value in self {
+            if result.contains(value) == false {
+                result.append(value)
+            }
+        }
+
+        return result
     }
 }

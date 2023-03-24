@@ -29,6 +29,14 @@
 		31065E5429CDB43600981B4D /* ImageItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31065E5329CDB43600981B4D /* ImageItem+CoreDataProperties.swift */; };
 		31065E5629CDBD1700981B4D /* Extension+UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31065E5529CDBD1700981B4D /* Extension+UIViewController.swift */; };
 		31065E5829CDC18000981B4D /* ErrorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31065E5729CDC18000981B4D /* ErrorDelegate.swift */; };
+		317C444E29CDC63E000516D3 /* Extension+XCTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317C444D29CDC63E000516D3 /* Extension+XCTestCase.swift */; };
+		317C445029CDC66F000516D3 /* TopMoviesViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317C444F29CDC66F000516D3 /* TopMoviesViewControllerTests.swift */; };
+		317C445229CDC910000516D3 /* FakeNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317C445129CDC910000516D3 /* FakeNetworkManager.swift */; };
+		317C445429CDCED2000516D3 /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317C445329CDCED2000516D3 /* MockData.swift */; };
+		317C445629CDD636000516D3 /* FakeCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317C445529CDD636000516D3 /* FakeCacheManager.swift */; };
+		317C445829CDDDCF000516D3 /* MockUINavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317C445729CDDDCF000516D3 /* MockUINavigationController.swift */; };
+		317C445A29CDDFE0000516D3 /* MovieDetailsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317C445929CDDFE0000516D3 /* MovieDetailsViewControllerTests.swift */; };
+		317C445C29CDE0AA000516D3 /* FakeURLBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317C445B29CDE0AA000516D3 /* FakeURLBuilder.swift */; };
 		317F242029CB7F150042836D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317F241F29CB7F150042836D /* AppDelegate.swift */; };
 		317F242229CB7F150042836D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317F242129CB7F150042836D /* SceneDelegate.swift */; };
 		317F242429CB7F150042836D /* TopMoviesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317F242329CB7F150042836D /* TopMoviesViewController.swift */; };
@@ -36,6 +44,16 @@
 		317F242C29CB7F160042836D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 317F242A29CB7F160042836D /* LaunchScreen.storyboard */; };
 		317F243B29CC45CF0042836D /* TopMoviesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317F243A29CC45CF0042836D /* TopMoviesCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		317C444629CDC51A000516D3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 317F241429CB7F150042836D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 317F241B29CB7F150042836D;
+			remoteInfo = "IMDb Top Movies";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		31065E1629CC5AFF00981B4D /* Extension+UICollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UICollectionView.swift"; sourceTree = "<group>"; };
@@ -60,6 +78,15 @@
 		31065E5329CDB43600981B4D /* ImageItem+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		31065E5529CDBD1700981B4D /* Extension+UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIViewController.swift"; sourceTree = "<group>"; };
 		31065E5729CDC18000981B4D /* ErrorDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorDelegate.swift; sourceTree = "<group>"; };
+		317C444229CDC51A000516D3 /* IMDb Top MoviesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "IMDb Top MoviesTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		317C444D29CDC63E000516D3 /* Extension+XCTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+XCTestCase.swift"; sourceTree = "<group>"; };
+		317C444F29CDC66F000516D3 /* TopMoviesViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopMoviesViewControllerTests.swift; sourceTree = "<group>"; };
+		317C445129CDC910000516D3 /* FakeNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeNetworkManager.swift; sourceTree = "<group>"; };
+		317C445329CDCED2000516D3 /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
+		317C445529CDD636000516D3 /* FakeCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeCacheManager.swift; sourceTree = "<group>"; };
+		317C445729CDDDCF000516D3 /* MockUINavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUINavigationController.swift; sourceTree = "<group>"; };
+		317C445929CDDFE0000516D3 /* MovieDetailsViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsViewControllerTests.swift; sourceTree = "<group>"; };
+		317C445B29CDE0AA000516D3 /* FakeURLBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeURLBuilder.swift; sourceTree = "<group>"; };
 		317F241C29CB7F150042836D /* IMDb Top Movies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "IMDb Top Movies.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		317F241F29CB7F150042836D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		317F242129CB7F150042836D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -71,6 +98,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		317C443F29CDC51A000516D3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		317F241929CB7F150042836D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -134,10 +168,42 @@
 			path = CoreData;
 			sourceTree = "<group>";
 		};
+		317C444329CDC51A000516D3 /* IMDb Top MoviesTests */ = {
+			isa = PBXGroup;
+			children = (
+				317C444C29CDC5AC000516D3 /* Mocks */,
+				317C444B29CDC5A5000516D3 /* Tests */,
+			);
+			path = "IMDb Top MoviesTests";
+			sourceTree = "<group>";
+		};
+		317C444B29CDC5A5000516D3 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				317C444F29CDC66F000516D3 /* TopMoviesViewControllerTests.swift */,
+				317C445929CDDFE0000516D3 /* MovieDetailsViewControllerTests.swift */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		317C444C29CDC5AC000516D3 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				317C444D29CDC63E000516D3 /* Extension+XCTestCase.swift */,
+				317C445129CDC910000516D3 /* FakeNetworkManager.swift */,
+				317C445529CDD636000516D3 /* FakeCacheManager.swift */,
+				317C445B29CDE0AA000516D3 /* FakeURLBuilder.swift */,
+				317C445329CDCED2000516D3 /* MockData.swift */,
+				317C445729CDDDCF000516D3 /* MockUINavigationController.swift */,
+			);
+			path = Mocks;
+			sourceTree = "<group>";
+		};
 		317F241329CB7F150042836D = {
 			isa = PBXGroup;
 			children = (
 				317F241E29CB7F150042836D /* IMDb Top Movies */,
+				317C444329CDC51A000516D3 /* IMDb Top MoviesTests */,
 				317F241D29CB7F150042836D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -146,6 +212,7 @@
 			isa = PBXGroup;
 			children = (
 				317F241C29CB7F150042836D /* IMDb Top Movies.app */,
+				317C444229CDC51A000516D3 /* IMDb Top MoviesTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -208,6 +275,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		317C444129CDC51A000516D3 /* IMDb Top MoviesTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 317C444A29CDC51A000516D3 /* Build configuration list for PBXNativeTarget "IMDb Top MoviesTests" */;
+			buildPhases = (
+				317C443E29CDC51A000516D3 /* Sources */,
+				317C443F29CDC51A000516D3 /* Frameworks */,
+				317C444029CDC51A000516D3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				317C444729CDC51A000516D3 /* PBXTargetDependency */,
+			);
+			name = "IMDb Top MoviesTests";
+			productName = "IMDb Top MoviesTests";
+			productReference = 317C444229CDC51A000516D3 /* IMDb Top MoviesTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		317F241B29CB7F150042836D /* IMDb Top Movies */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 317F243029CB7F160042836D /* Build configuration list for PBXNativeTarget "IMDb Top Movies" */;
@@ -235,6 +320,10 @@
 				LastSwiftUpdateCheck = 1400;
 				LastUpgradeCheck = 1400;
 				TargetAttributes = {
+					317C444129CDC51A000516D3 = {
+						CreatedOnToolsVersion = 14.0.1;
+						TestTargetID = 317F241B29CB7F150042836D;
+					};
 					317F241B29CB7F150042836D = {
 						CreatedOnToolsVersion = 14.0.1;
 					};
@@ -254,11 +343,19 @@
 			projectRoot = "";
 			targets = (
 				317F241B29CB7F150042836D /* IMDb Top Movies */,
+				317C444129CDC51A000516D3 /* IMDb Top MoviesTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		317C444029CDC51A000516D3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		317F241A29CB7F150042836D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -271,6 +368,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		317C443E29CDC51A000516D3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				317C445C29CDE0AA000516D3 /* FakeURLBuilder.swift in Sources */,
+				317C444E29CDC63E000516D3 /* Extension+XCTestCase.swift in Sources */,
+				317C445A29CDDFE0000516D3 /* MovieDetailsViewControllerTests.swift in Sources */,
+				317C445429CDCED2000516D3 /* MockData.swift in Sources */,
+				317C445029CDC66F000516D3 /* TopMoviesViewControllerTests.swift in Sources */,
+				317C445829CDDDCF000516D3 /* MockUINavigationController.swift in Sources */,
+				317C445229CDC910000516D3 /* FakeNetworkManager.swift in Sources */,
+				317C445629CDD636000516D3 /* FakeCacheManager.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		317F241829CB7F150042836D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -306,6 +418,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		317C444729CDC51A000516D3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 317F241B29CB7F150042836D /* IMDb Top Movies */;
+			targetProxy = 317C444629CDC51A000516D3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		317F242A29CB7F160042836D /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -318,6 +438,44 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		317C444829CDC51A000516D3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9964CXZHWZ;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "olegstasiw.IMDb-Top-MoviesTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/IMDb Top Movies.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/IMDb Top Movies";
+			};
+			name = Debug;
+		};
+		317C444929CDC51A000516D3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9964CXZHWZ;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "olegstasiw.IMDb-Top-MoviesTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/IMDb Top Movies.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/IMDb Top Movies";
+			};
+			name = Release;
+		};
 		317F242E29CB7F160042836D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -493,6 +651,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		317C444A29CDC51A000516D3 /* Build configuration list for PBXNativeTarget "IMDb Top MoviesTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				317C444829CDC51A000516D3 /* Debug */,
+				317C444929CDC51A000516D3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		317F241729CB7F150042836D /* Build configuration list for PBXProject "IMDb Top Movies" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
