@@ -5,6 +5,7 @@
 //  Created by Oleh Stasiv on 23.03.2023.
 //
 
+import Combine
 import UIKit
 
 class MovieDetailsViewController: UIViewController {
@@ -105,6 +106,7 @@ class MovieDetailsViewController: UIViewController {
     }()
     
     let viewModel: MovieDetailsViewModelProtocol
+    private var cancellable = Set<AnyCancellable>()
     
     init(viewModel: MovieDetailsViewModelProtocol) {
         self.viewModel = viewModel
@@ -118,11 +120,21 @@ class MovieDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .customBackgroundColor
+        setupBindings()
         addViews()
         setupConstraints()
         setupNavigationBar()
         fetchImage()
         setupData()
+    }
+    
+    private func setupBindings() {
+        viewModel.error
+            .sink { [weak self] error in
+                guard let error = error else { return }
+                self?.showToast(with: error)
+            }
+            .store(in: &cancellable)
     }
     
     private func setupData() {

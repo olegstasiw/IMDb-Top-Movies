@@ -35,6 +35,7 @@ class TopMoviesViewController: UIViewController {
                 guard let strongSelf = self else { return nil }
                 let cell: TopMoviesCollectionViewCell = collectionView.dequeueReusableCell(for: indexPath)
                 cell.viewModel = TopMoviesCollectionViewCellViewModel()
+                cell.errorDelegate = self
                 cell.addShadow()
                 cell.cornered(cornerRadius: Constants.itemCornerRadius)
                 let movie = strongSelf.searchController.isActive
@@ -126,8 +127,7 @@ class TopMoviesViewController: UIViewController {
         viewModel.error
             .sink { [weak self] error in
                 guard let error = error else { return }
-                // TO DO
-                print(error)
+                self?.showToast(with: error)
             }
             .store(in: &cancellable)
     }
@@ -235,5 +235,11 @@ extension TopMoviesViewController: UISearchResultsUpdating {
         searchController.searchBar.placeholder = Constants.searchPlaceholder
         navigationItem.searchController = searchController
         definesPresentationContext = true
+    }
+}
+
+extension TopMoviesViewController: ErrorDelegate {
+    func showError(error: String) {
+        self.showToast(with: error)
     }
 }

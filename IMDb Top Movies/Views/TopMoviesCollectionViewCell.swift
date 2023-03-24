@@ -5,6 +5,7 @@
 //  Created by Oleh Stasiv on 23.03.2023.
 //
 
+import Combine
 import UIKit
 
 class TopMoviesCollectionViewCell: UICollectionViewCell, Reusable {
@@ -71,6 +72,8 @@ class TopMoviesCollectionViewCell: UICollectionViewCell, Reusable {
     }()
 
     var viewModel: TopMoviesCollectionViewCellViewModelProtocol?
+    weak var errorDelegate: ErrorDelegate?
+    private var cancellable = Set<AnyCancellable>()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -84,6 +87,15 @@ class TopMoviesCollectionViewCell: UICollectionViewCell, Reusable {
         self.backgroundColor = .cardBackgroundColor
         addSubviews()
         setupConstraints()
+        setupBindings()
+    }
+
+    func setupData(movie: Movie, indexPath: IndexPath) {
+        setupCell()
+        rankLabel.text = movie.rank
+        titleLabel.text = movie.title
+        iMDbRankLabel.text = movie.imDbRating
+        setUpImageView(id: movie.id + "small", imageURL: movie.image, indexPath: indexPath)
     }
 
     private func addSubviews() {
@@ -117,12 +129,13 @@ class TopMoviesCollectionViewCell: UICollectionViewCell, Reusable {
         NSLayoutConstraint.activate(constraints)
     }
     
-    func setupData(movie: Movie, indexPath: IndexPath) {
-        setupCell()
-        rankLabel.text = movie.rank
-        titleLabel.text = movie.title
-        iMDbRankLabel.text = movie.imDbRating
-        setUpImageView(id: movie.id + "small", imageURL: movie.image, indexPath: indexPath)
+    private func setupBindings() {
+        viewModel?.error
+            .sink { [weak self] error in
+                guard let error = error else { return }
+                self?.errorDelegate?.showError(error: error)
+            }
+            .store(in: &cancellable)
     }
     
     private func setUpImageView(id: String, imageURL: String, indexPath: IndexPath) {
