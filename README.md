@@ -21,4 +21,5 @@ light | dark
 light | dark
 -- | --
 ![Simulator Screen Shot - iPad Pro (11-inch) (3rd generation) - 2023-03-24 at 18 10 52](https://user-images.githubusercontent.com/32603788/227584156-d40463c5-c6eb-43f3-86da-d9583652be83.png) | ![Simulator Screen Shot - iPad Pro (11-inch) (3rd generation) - 2023-03-24 at 18 11 19](https://user-images.githubusercontent.com/32603788/227584201-e05a640d-17d2-4bc3-9db3-645fbc4d152e.png)
-![Simulator Screen Shot - iPad Pro (11-inch) (3rd generation) - 2023-03-24 at 18 11 01](https://user-images.githubusercontent.com/32603788/227584229-6bc6317e-25dd-4955-80df-ea5f3d259698.png) | ![Simulator Screen Shot - iPad Pro (11-inch) (3rd generation) - 2023-03-24 at 18 11 25](https://user-images.githubusercontent.com/32603788/227584400-269cf89c-9d14-429b-97e9-79f126ca9edb.png
+![Simulator Screen Shot - iPad Pro (11-inch) (3rd generation) - 2023-03-24 at 18 11 01](https://user-images.githubusercontent.com/32603788/227584229-6bc6317e-25dd-4955-80df-ea5f3d259698.png) | ![Simulator Screen Shot - iPad Pro (11-inch) (3rd generation) - 2023-03-24 at 18 11 25](https://user-images.githubusercontent.com/32603788/227587892-1dbf1d2c-ea11-4618-a82f-aab02919a0af.png)
+
