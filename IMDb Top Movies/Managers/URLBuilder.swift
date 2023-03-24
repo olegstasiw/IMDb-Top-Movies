@@ -9,7 +9,8 @@ import Foundation
 
 protocol URLBuilderProtocol {
     func buildTopMoviesURL() -> URL?
-    func buildImageResizeURL(imageURL: String) -> URL?
+    func buildSmallImageResizeURL(imageURL: String) -> URL?
+    func buildLargeImageResizeURL(imageURL: String) -> URL?
 }
 
 class URLBuilder: URLBuilderProtocol {
@@ -19,10 +20,11 @@ class URLBuilder: URLBuilderProtocol {
     private struct Constants {
         static let stringURL = "https://imdb-api.com/API/"
         static let lang = "en"
-        static let apiKey = "k_12qh7df3"
+        static let apiKey = "k_nofqiq57"
         static let topMoviesApiPath = "Top250Movies"
         static let resizeImageApiPath = "ResizeImage"
-        static let imageSize = "390x550"
+        static let smallImageSize = "390x550"
+        static let largeImageSize = "770x1100"
         
         static let apiKeyPath = "apikey"
         static let langPath = "lang"
@@ -37,11 +39,19 @@ class URLBuilder: URLBuilderProtocol {
         return components?.url
     }
     
-    func buildImageResizeURL(imageURL: String) -> URL? {
+    func buildSmallImageResizeURL(imageURL: String) -> URL? {
         let url = Constants.stringURL + Constants.resizeImageApiPath
         var components = getURLComponents(for: url)
         components?.queryItems?.append(URLQueryItem(name: Constants.urlPath, value: imageURL))
-        components?.queryItems?.append(URLQueryItem(name: Constants.sizePath, value: Constants.imageSize))
+        components?.queryItems?.append(URLQueryItem(name: Constants.sizePath, value: Constants.smallImageSize))
+        return components?.url
+    }
+    
+    func buildLargeImageResizeURL(imageURL: String) -> URL? {
+        let url = Constants.stringURL + Constants.resizeImageApiPath
+        var components = getURLComponents(for: url)
+        components?.queryItems?.append(URLQueryItem(name: Constants.urlPath, value: imageURL))
+        components?.queryItems?.append(URLQueryItem(name: Constants.sizePath, value: Constants.largeImageSize))
         return components?.url
     }
     

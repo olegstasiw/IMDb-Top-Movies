@@ -41,6 +41,7 @@ class TopMoviesCollectionViewCell: UICollectionViewCell, Reusable {
         imageView.addShadow()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
+        imageView.image = UIImage(named: "placeholderMovie")
         return imageView
     }()
 
@@ -69,6 +70,8 @@ class TopMoviesCollectionViewCell: UICollectionViewCell, Reusable {
         return label
     }()
 
+    var viewModel: TopMoviesCollectionViewCellViewModelProtocol?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
@@ -77,13 +80,13 @@ class TopMoviesCollectionViewCell: UICollectionViewCell, Reusable {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func setupCell() {
+    private func setupCell() {
         self.backgroundColor = .cardBackgroundColor
         addSubviews()
         setupConstraints()
     }
 
-    func addSubviews() {
+    private func addSubviews() {
         addSubview(movieImageView)
         addSubview(rankView)
         rankView.addSubview(rankLabel)
@@ -92,7 +95,7 @@ class TopMoviesCollectionViewCell: UICollectionViewCell, Reusable {
         iMDbRankView.addSubview(iMDbRankLabel)
     }
 
-    func setupConstraints() {
+    private func setupConstraints() {
         var constraints = [NSLayoutConstraint]()
         constraints.append(contentsOf: [
             movieImageView.leftAnchor.constraint(equalTo: leftAnchor, constant: Constants.movieImageViewPadding),
@@ -114,25 +117,31 @@ class TopMoviesCollectionViewCell: UICollectionViewCell, Reusable {
         NSLayoutConstraint.activate(constraints)
     }
     
-    func setupData(movie: Movie) {
+    func setupData(movie: Movie, indexPath: IndexPath) {
         setupCell()
         rankLabel.text = movie.rank
-        movieImageView.image = UIImage(named: "placeholderMovie")
         titleLabel.text = movie.title
         iMDbRankLabel.text = movie.imDbRating
+        setUpImageView(id: movie.id + "small", imageURL: movie.image, indexPath: indexPath)
     }
     
-    func setUpImageView(imageURL: String, indexPath: IndexPath) {
+    private func setUpImageView(id: String, imageURL: String, indexPath: IndexPath) {
         self.tag = indexPath.item
-        // Load cache
-        DispatchQueue.global().async {
-            //TO DO
-            guard let url = URLBuilder.shared.buildImageResizeURL(imageURL: imageURL) else { return }
-            guard let data = try? Data(contentsOf: url) else { return }
+        guard let url = URLBuilder.shared.buildSmallImageResizeURL(imageURL: imageURL) else { return }
+        if let cached = viewModel?.getImageDataFromCache(id: id) {
             DispatchQueue.main.async {
                 if self.tag == indexPath.item {
-                    // Save cache
-                    self.movieImageView.image = UIImage(data: data)
+                    self.movieImageView.image = UIImage(data: cached)
+                }
+            }
+        } else {
+            DispatchQueue.global().async {
+                guard let data = try? Data(contentsOf: url) else { return }
+                DispatchQueue.main.async {
+                    if self.tag == indexPath.item {
+                        self.viewModel?.saveImageDataToCache(id: id, url: url.absoluteString, data: data)
+                        self.movieImageView.image = UIImage(data: data)
+                    }
                 }
             }
         }
