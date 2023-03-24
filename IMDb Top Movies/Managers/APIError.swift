@@ -18,7 +18,7 @@ extension APIError {
         case .invalidURL:
             return "Bad url"
         case .emptyData:
-            return "Data is empty. Check your request limit"
+            return "Data is empty. Check your request limit. Daily limit - 100 requests."
         }
     }
 }

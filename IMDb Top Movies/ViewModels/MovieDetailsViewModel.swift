@@ -5,6 +5,7 @@
 //  Created by Oleh Stasiv on 23.03.2023.
 //
 
+import Combine
 import Foundation
 
 protocol MovieDetailsViewModelProtocol {
@@ -13,6 +14,7 @@ protocol MovieDetailsViewModelProtocol {
     func getDictionaryWithCountingOfEachCharecterInTitle() -> [Character: Int]
     func getImageDataFromCache(id: String) -> Data?
     func saveImageDataToCache(id: String, url: String, data: Data)
+    var error: CurrentValueSubject<String?, Never> { get }
     
     var crewText: String { get }
     var yearText: String { get }
@@ -25,7 +27,8 @@ class MovieDetailsViewModel: MovieDetailsViewModelProtocol {
     let movie: Movie
     let urlBuider: URLBuilderProtocol
     let cacheManager: CoreDataManagerProtocol
-    
+    var error = CurrentValueSubject<String?, Never>(nil)
+
     var crewText: String {
         return "Crew: \(movie.crew)"
     }
@@ -67,7 +70,6 @@ class MovieDetailsViewModel: MovieDetailsViewModelProtocol {
         
         letterSet.filter { $0.isLetter }.forEach { letter in
             let count = movie.title.filter { Character($0.lowercased()) == letter }.count
-            
             dictionary.updateValue(count, forKey: letter)
         }
         return dictionary
@@ -79,14 +81,14 @@ class MovieDetailsViewModel: MovieDetailsViewModelProtocol {
         case .success(let data):
             return data
         case .failure(let error):
-            print(error)
+            self.error.value = error.localizedDescription
             return nil
         }
     }
     
     func saveImageDataToCache(id: String, url: String, data: Data) {
-        cacheManager.saveImage(id: id, imageUrl: url, data: data) { error in
-            // To do
+        cacheManager.saveImage(id: id, imageUrl: url, data: data) { [weak self] error in
+            self?.error.value = error?.localizedDescription
         }
     }
 }

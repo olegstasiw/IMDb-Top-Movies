@@ -49,8 +49,8 @@ class TopMoviesViewModel: TopMoviesViewModelProtocol {
 
     }
     private func writeCache(movies: [Movie]) {
-        cacheManager.saveMoviesItems(movies: movies) { error in
-            // To do
+        cacheManager.saveMoviesItems(movies: movies) { [weak self] error in
+            self?.error.value = error?.localizedDescription
         }
     }
     
