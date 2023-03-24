@@ -135,7 +135,7 @@ class TopMoviesViewController: UIViewController {
     }
     
     private func setupNavigationBar() {
-        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.prefersLargeTitles = false
         title = Constants.navigationTitle
     }
 

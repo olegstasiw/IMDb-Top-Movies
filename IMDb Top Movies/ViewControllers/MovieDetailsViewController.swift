@@ -22,6 +22,7 @@ class MovieDetailsViewController: UIViewController {
         let imageView = UIImageView().withAutoLayout()
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
+        imageView.cornered()
         imageView.image = UIImage(named: "placeholderMovie")
         imageView.addShadow()
         return imageView
@@ -95,13 +96,13 @@ class MovieDetailsViewController: UIViewController {
     
     private lazy var infoDivider: UIView = {
         let divider = UIView()
-        divider.backgroundColor = .black
+        divider.backgroundColor = .backButtonColor
         return divider
     }()
     
     private lazy var contentDivider: UIView = {
         let divider = UIView()
-        divider.backgroundColor = .black
+        divider.backgroundColor = .backButtonColor
         return divider
     }()
     
@@ -149,7 +150,7 @@ class MovieDetailsViewController: UIViewController {
     private func setupNavigationBar() {
         UILabel.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).adjustsFontSizeToFitWidth = true
         title = viewModel.movie.title
-        self.navigationController?.navigationBar.tintColor = .black
+        navigationController?.navigationBar.tintColor = .backButtonColor
     }
     
     private func addViews() {
@@ -198,14 +199,13 @@ class MovieDetailsViewController: UIViewController {
     }
     
     private func setupConstraints() {
-        let margins = view.layoutMarginsGuide
         var constraints = [NSLayoutConstraint]()
         constraints += scrollView.constraintsToFillSuperviewHorizontally(leadingMargin: 0, trailingMargin: 0)
         constraints += scrollStackViewContainer.constraintsToFillSuperview(margins: UIEdgeInsets(top: 0, left: Constants.scrollViewContainerPadding, bottom: 0, right: Constants.scrollViewContainerPadding))
         constraints += imageView.constraintsWidthAndHeight(width: Constants.imageViewWidth, height: Constants.imageViewHeight)
         constraints.append(contentsOf: [
-            scrollView.topAnchor.constraint(equalTo: margins.topAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: margins.bottomAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             scrollStackViewContainer.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -(Constants.scrollViewContainerPadding * 2)),
             infoDivider.heightAnchor.constraint(equalToConstant: 2),
             contentDivider.heightAnchor.constraint(equalToConstant: 2)
@@ -228,7 +228,7 @@ class MovieDetailsViewController: UIViewController {
                 guard let data = try? Data(contentsOf: url) else { return }
                 DispatchQueue.main.async {
                     guard let strongSelf = self else { return }
-                    strongSelf.viewModel.saveImageDataToCache(id: id, url: url.absoluteString, data: data)
+                    strongSelf.viewModel.saveImageDataToCache(id: id, data: data)
                     strongSelf.imageView.image = UIImage(data: data)
                 }
             }

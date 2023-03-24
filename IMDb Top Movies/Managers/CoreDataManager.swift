@@ -11,8 +11,6 @@ import CoreData
 protocol CoreDataManagerProtocol {
     func saveMoviesItems(movies: [Movie], errorCompletion: @escaping(Error?) -> Void)
     func getMoviesItems() -> Result<[Movie], Error>
-    func saveImage(id: String, imageUrl: String, data: Data, errorCompletion: @escaping(Error?) -> Void)
-    func getImage(id: String) -> Result<Data?, Error>
 }
 
 class CoreDataManager: CoreDataManagerProtocol {
@@ -75,46 +73,6 @@ class CoreDataManager: CoreDataManagerProtocol {
             let moviesItems = try viewContext.fetch(MovieItem.fetchRequest())
             let movies = moviesItems.map { $0.movie }
             return .success(movies)
-        } catch {
-            return .failure(error)
-        }
-    }
-    
-    func saveImage(id: String, imageUrl: String, data: Data, errorCompletion: @escaping(Error?) -> Void) {
-        do {
-            let imagesItems = try viewContext.fetch(ImageItem.fetchRequest())
-            if imagesItems.isEmpty {
-                let imageInstance = ImageItem(context: viewContext)
-                imageInstance.image = data
-                imageInstance.url = imageUrl
-                imageInstance.id = id
-            } else {
-                for imageItem in imagesItems {
-                    if imageItem.id == id {
-                        imageItem.image = data
-                        imageItem.url = imageUrl
-                        imageItem.id = id
-                    } else {
-                        let imageInstance = ImageItem(context: viewContext)
-                        imageInstance.image = data
-                        imageInstance.url = imageUrl
-                        imageInstance.id = id
-                    }
-                }
-            }
-            saveContext()
-            return
-        } catch {
-            errorCompletion(error)
-            return
-        }
-    }
-    
-    func getImage(id: String) -> Result<Data?, Error> {
-        do {
-            let images = try viewContext.fetch(ImageItem.fetchRequest())
-            let imageItem = images.first(where: { $0.id == id })
-            return .success(imageItem?.image)
         } catch {
             return .failure(error)
         }

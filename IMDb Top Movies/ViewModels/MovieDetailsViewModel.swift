@@ -13,7 +13,7 @@ protocol MovieDetailsViewModelProtocol {
     func getURLForLargeImage() -> URL?
     func getArrayWithCountingOfEachCharecterInTitle() -> [(Character, Int)]
     func getImageDataFromCache(id: String) -> Data?
-    func saveImageDataToCache(id: String, url: String, data: Data)
+    func saveImageDataToCache(id: String, data: Data)
     var error: CurrentValueSubject<String?, Never> { get }
     
     var crewText: String { get }
@@ -26,7 +26,7 @@ protocol MovieDetailsViewModelProtocol {
 class MovieDetailsViewModel: MovieDetailsViewModelProtocol {
     let movie: Movie
     let urlBuider: URLBuilderProtocol
-    let cacheManager: CoreDataManagerProtocol
+    let imageCachService: ImageCacheService
     var error = CurrentValueSubject<String?, Never>(nil)
 
     var crewText: String {
@@ -51,10 +51,10 @@ class MovieDetailsViewModel: MovieDetailsViewModelProtocol {
     
     init(movie: Movie,
          urlBuider: URLBuilderProtocol = URLBuilder.shared,
-         cacheManager: CoreDataManagerProtocol = CoreDataManager.shared) {
+         imageCachService: ImageCacheService = ImageCacheManager()) {
         self.movie = movie
         self.urlBuider = urlBuider
-        self.cacheManager = cacheManager
+        self.imageCachService = imageCachService
     }
     
     func getURLForLargeImage() -> URL? {
@@ -78,33 +78,12 @@ class MovieDetailsViewModel: MovieDetailsViewModelProtocol {
     }
     
     func getImageDataFromCache(id: String) -> Data? {
-        switch cacheManager.getImage(id: id) {
-            
-        case .success(let data):
-            return data
-        case .failure(let error):
-            self.error.value = error.localizedDescription
-            return nil
-        }
+        return imageCachService.read(fileName: id)
     }
     
-    func saveImageDataToCache(id: String, url: String, data: Data) {
-        cacheManager.saveImage(id: id, imageUrl: url, data: data) { [weak self] error in
+    func saveImageDataToCache(id: String, data: Data) {
+        imageCachService.write(filename: id, data: data) { [weak self] error in
             self?.error.value = error?.localizedDescription
         }
-    }
-}
-
-extension Array where Element:Equatable {
-    func removeDuplicates() -> [Element] {
-        var result = [Element]()
-
-        for value in self {
-            if result.contains(value) == false {
-                result.append(value)
-            }
-        }
-
-        return result
     }
 }

@@ -22,7 +22,7 @@ class TopMoviesCollectionViewCell: UICollectionViewCell, Reusable {
 
     lazy var rankView: UIView = {
         let rankView = UIView().withAutoLayout()
-        rankView.backgroundColor = .customBackgroundColor
+        rankView.backgroundColor = .cardBackgroundColor
         rankView.addShadow()
         rankView.cornered(cornerRadius: 5)
         return rankView
@@ -56,7 +56,7 @@ class TopMoviesCollectionViewCell: UICollectionViewCell, Reusable {
 
     lazy var iMDbRankView: UIView = {
         let rankView = UIView().withAutoLayout()
-        rankView.backgroundColor = .white
+        rankView.backgroundColor = .customBackgroundColor
         rankView.addShadow()
         rankView.cornered(cornerRadius: 5)
         return rankView
@@ -148,12 +148,14 @@ class TopMoviesCollectionViewCell: UICollectionViewCell, Reusable {
                 }
             }
         } else {
-            DispatchQueue.global().async {
+            DispatchQueue.global().async { [weak self] in
                 guard let data = try? Data(contentsOf: url) else { return }
                 DispatchQueue.main.async {
-                    if self.tag == indexPath.item {
-                        self.viewModel?.saveImageDataToCache(id: id, url: url.absoluteString, data: data)
-                        self.movieImageView.image = UIImage(data: data)
+                    guard let strongSelf = self else { return }
+                    if strongSelf.tag == indexPath.item {
+                        strongSelf.viewModel?.saveImageDataToCache(id: id, data: data)
+                        strongSelf.movieImageView.image = UIImage(data: data)
+                        strongSelf.movieImageView.contentMode = .scaleAspectFill
                     }
                 }
             }
