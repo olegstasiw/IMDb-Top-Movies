@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 protocol TopMoviesViewModelProtocol {
-    var movies: [Movie] { get set}
+    var movies: [Movie] { get set }
     var filteredMovies: [Movie] { get set }
     var error: CurrentValueSubject<String?, Never> { get }
     func fetchData(completion: @escaping () -> Void)
