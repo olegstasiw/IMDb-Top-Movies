@@ -17,4 +17,7 @@ struct Movie: Hashable, Codable {
     let title: String
     let image: String
     let imDbRating: String
+    let year: String
+    let crew: String
+    let imDbRatingCount: String
 }

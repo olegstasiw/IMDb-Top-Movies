@@ -34,13 +34,13 @@ class TopMoviesViewController: UIViewController {
             cellProvider: { [weak self] (collectionView, indexPath, video) -> UICollectionViewCell? in
                 guard let strongSelf = self else { return nil }
                 let cell: TopMoviesCollectionViewCell = collectionView.dequeueReusableCell(for: indexPath)
+                cell.viewModel = TopMoviesCollectionViewCellViewModel()
                 cell.addShadow()
                 cell.cornered(cornerRadius: Constants.itemCornerRadius)
                 let movie = strongSelf.searchController.isActive
                 ? strongSelf.viewModel.filteredMovies[indexPath.item]
                 : strongSelf.viewModel.movies[indexPath.item]
-                cell.setupData(movie: movie)
-                cell.setUpImageView(imageURL: movie.image, indexPath: indexPath)
+                cell.setupData(movie: movie, indexPath: indexPath)
                 return cell
             })
         dataSource.supplementaryViewProvider = { collectionView, kind, indexPath in
@@ -60,6 +60,7 @@ class TopMoviesViewController: UIViewController {
                                                                 collectionViewLayout: UICollectionViewFlowLayout()).withAutoLayout()
         collectionView.alwaysBounceVertical = true
         collectionView.refreshControl = refreshControl
+        collectionView.delegate = self
         return collectionView
     }()
 
@@ -164,7 +165,7 @@ class TopMoviesViewController: UIViewController {
     }
 }
 
-extension TopMoviesViewController {
+extension TopMoviesViewController: UICollectionViewDelegate {
     private func configureLayout() {
         collectionView.register(TopMoviesSectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader)
 
@@ -201,6 +202,13 @@ extension TopMoviesViewController {
         coordinator.animate(alongsideTransition: { context in
             self.collectionView.collectionViewLayout.invalidateLayout()
         })
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let movies = searchController.isActive ? viewModel.filteredMovies : viewModel.movies
+        let viewModel = MovieDetailsViewModel(movie: movies[indexPath.item])
+        let controller = MovieDetailsViewController(viewModel: viewModel)
+        navigationController?.pushViewController(controller, animated: true)
     }
 }
 
