@@ -10,4 +10,5 @@ import UIKit
 public extension UIColor {
     static let customBackgroundColor = UIColor(named: "backgroundColor")
     static let cardBackgroundColor = UIColor(named: "cardColor")
+    static let backButtonColor = UIColor(named: "backButtonColor")
 }

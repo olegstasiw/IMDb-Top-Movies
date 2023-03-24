@@ -10,31 +10,25 @@ import Foundation
 
 protocol TopMoviesCollectionViewCellViewModelProtocol {
     func getImageDataFromCache(id: String) -> Data?
-    func saveImageDataToCache(id: String, url: String, data: Data)
+    func saveImageDataToCache(id: String, data: Data)
     var error: CurrentValueSubject<String?, Never> { get }
 }
 
 class TopMoviesCollectionViewCellViewModel: TopMoviesCollectionViewCellViewModelProtocol {
     
-    let cacheManager: CoreDataManagerProtocol
+    let imageCacheService: ImageCacheService
     var error = CurrentValueSubject<String?, Never>(nil)
     
-    init(cacheManager: CoreDataManagerProtocol = CoreDataManager.shared) {
-        self.cacheManager = cacheManager
+    init(imageCacheService: ImageCacheService = ImageCacheManager()) {
+        self.imageCacheService = imageCacheService
     }
     
     func getImageDataFromCache(id: String) -> Data? {
-        switch cacheManager.getImage(id: id) {
-        case .success(let data):
-            return data
-        case .failure(let error):
-            self.error.value = error.localizedDescription
-            return nil
-        }
+        return imageCacheService.read(fileName: id)
     }
     
-    func saveImageDataToCache(id: String, url: String, data: Data) {
-        cacheManager.saveImage(id: id, imageUrl: url, data: data) { [weak self] error in
+    func saveImageDataToCache(id: String, data: Data) {
+        imageCacheService.write(filename: id, data: data) { [weak self] error in
             self?.error.value = error?.localizedDescription
         }
     }

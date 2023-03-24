@@ -15,7 +15,7 @@ class MovieDetailsViewControllerTests: XCTestCase {
         assertObjectWillDealloc {
             return createMovieDetailsViewController(viewModel: createViewModel(movie: MockData.mockMovie,
                                                                                urlBuider: URLBuilder.shared,
-                                                                               cacheManager: CoreDataManager.shared))
+                                                                               imageCachService: ImageCacheManager()))
         }
     }
     
@@ -83,7 +83,7 @@ class MovieDetailsViewControllerTests: XCTestCase {
     
     private func createViewModel(movie: Movie = MockData.mockMovie,
                                  urlBuider: URLBuilderProtocol = FakeURLBuilder(),
-                                 cacheManager: CoreDataManagerProtocol = FakeCacheManager()) -> MovieDetailsViewModelProtocol {
-        return MovieDetailsViewModel(movie: movie, urlBuider: urlBuider, cacheManager: cacheManager)
+                                 imageCachService: ImageCacheService = ImageCacheManager()) -> MovieDetailsViewModelProtocol {
+        return MovieDetailsViewModel(movie: movie, urlBuider: urlBuider, imageCachService: imageCachService)
     }
 }
